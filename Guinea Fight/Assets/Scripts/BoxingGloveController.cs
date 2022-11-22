@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,24 +18,51 @@ public class BoxingGloveController : MonoBehaviour
 
     public void Update()
     {
-        Quaternion angle = transform.rotation;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        Vector3 controllerInput = new Vector3(0, FindAngle(x, z), 0);
+
+        if (x != 0 || z != 0)
+            RotateTo(FlattenInput(controllerInput));
+
         transform.position = ballTransform.position;
+    }
 
-        Vector2 leftStick;
-        if (Gamepad.current != null)
-            leftStick = Gamepad.current.leftStick.ReadValue();
-        else
-        {
-            float x = Input.GetAxis("Horizontal");
-            float y = Input.GetAxis("Vertical");
+    Quaternion FlattenInput(Vector3 input)
+    {
+        Quaternion flatten = Quaternion.LookRotation(cameraRig.forward, Vector3.up) * Quaternion.Euler(input);
+        return flatten;
+    }
 
-            leftStick = new Vector2(x, y);
-        }
-        if (leftStick != null)
+    float FindAngle (float x, float y)
+    {
+        float value = (float)(Mathf.Atan2(x, y) / Math.PI) * 180f;
+        if (value < 0)
+            value += 360;
+        return value;
+    }
+
+    void RotateTo (Quaternion target)
+    {
+        Quaternion total = transform.rotation;
+        float cr = transform.rotation.eulerAngles.y;
+        float tr = target.eulerAngles.y;
+        float angleDifference = Modulo(tr - cr, 360f);
+        if (cr > tr + 5 || cr < tr - 5)
         {
-            angle.eulerAngles = new Vector3 (transform.rotation.x, Mathf.Atan2(leftStick.y, leftStick.x) * Mathf.Rad2Deg, transform.rotation.z);
-            angle.Set(angle.x, angle.y + cameraRig.rotation.y, angle.z, angle.w);
-            transform.SetPositionAndRotation(transform.position, angle);
+            if (angleDifference > 180)
+            {
+                transform.Rotate(transform.rotation.x, 360 - (speed * Time.deltaTime), transform.rotation.z);
+            }
+            else
+            {
+                transform.Rotate(transform.rotation.x, 0 + (speed * Time.deltaTime), transform.rotation.z);
+            }
         }
+    }
+
+    float Modulo (float x, float m)
+    {
+        return (x % m + m) % m;
     }
 }

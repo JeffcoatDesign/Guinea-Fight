@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     public float camSpeed;
-    //private Transform boxingGlove;
 
     private PlayerController targetPlayer;
 
@@ -28,9 +27,6 @@ public class CameraController : MonoBehaviour
             rightStick = new Vector2(x, y);
         }
         transform.Rotate(transform.up, rightStick.x * camSpeed);
-        //transform.Rotate(transform.right, rightStick.y * camSpeed);
-        //if (boxingGlove != null)
-           // boxingGlove.transform.Rotate(transform.up, rightStick.x * camSpeed);
     }
     private void LateUpdate()
     {
@@ -41,6 +37,5 @@ public class CameraController : MonoBehaviour
     public void SetRigParent (GameObject tr)
     {
         targetPlayer = tr.GetComponent<PlayerController>();
-        //boxingGlove = targetPlayer.boxingGlove.transform;
     }
 }
