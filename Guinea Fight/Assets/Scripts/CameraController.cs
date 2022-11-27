@@ -6,12 +6,13 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     public float camSpeed;
+    public static CameraController instance;
 
     private PlayerController targetPlayer;
 
-    private void Start()
+    private void Awake()
     {
-        SetRigParent(GameManager.instance.localPlayerObj);
+        instance = this;
     }
 
     private void Update()

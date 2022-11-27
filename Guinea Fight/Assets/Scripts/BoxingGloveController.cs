@@ -3,21 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
-public class BoxingGloveController : MonoBehaviour
+public class BoxingGloveController : MonoBehaviourPun
 {
+    public PlayerController playerController;
     public Transform ballTransform;
+    public Transform gloveOrigin;
+    public Transform springTransform;
+    public Transform springEnd;
+    public BoxingGloveLauncher bGL;
+    public float punchForce;
     public float speed;
+    public float punchTime = 1f;
+    public float punchRatio = 0.5f;
+    public float swingLength = 0.5f;
+    public float springCompressScale = 0.5f;
 
     private Transform cameraRig;
+    private bool isAttacking = false;
+    private float punchStartTime;
 
-    private void Start()
+    private void Awake()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
         cameraRig = Camera.main.transform.parent;
     }
 
-    public void Update()
+    void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
+        var gamepad = Gamepad.current;
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         Vector3 controllerInput = new Vector3(0, FindAngle(x, z), 0);
@@ -26,6 +49,14 @@ public class BoxingGloveController : MonoBehaviour
             RotateTo(FlattenInput(controllerInput));
 
         transform.position = ballTransform.position;
+
+        Attack(gamepad);
+    }
+
+    private void LateUpdate()
+    {
+        if (photonView.IsMine)
+            gloveOrigin.position = springEnd.position;
     }
 
     Quaternion FlattenInput(Vector3 input)
@@ -48,21 +79,58 @@ public class BoxingGloveController : MonoBehaviour
         float cr = transform.rotation.eulerAngles.y;
         float tr = target.eulerAngles.y;
         float angleDifference = Modulo(tr - cr, 360f);
-        if (cr > tr + 5 || cr < tr - 5)
+        if (cr > tr || cr < tr)
         {
             if (angleDifference > 180)
             {
-                transform.Rotate(transform.rotation.x, 360 - (speed * Time.deltaTime), transform.rotation.z);
+                transform.Rotate(transform.eulerAngles.x, 360 - (speed * Time.deltaTime), transform.eulerAngles.z);
+                total = Quaternion.Euler(0, Mathf.Clamp(transform.eulerAngles.y, tr, 360), 0);
             }
             else
             {
-                transform.Rotate(transform.rotation.x, 0 + (speed * Time.deltaTime), transform.rotation.z);
+                transform.Rotate(transform.eulerAngles.x, 0 + (speed * Time.deltaTime), transform.eulerAngles.z);
+                total = Quaternion.Euler(0, Mathf.Clamp(transform.eulerAngles.y, 0, tr), 0);
             }
+            transform.rotation = total;
         }
     }
 
     float Modulo (float x, float m)
     {
         return (x % m + m) % m;
+    }
+
+    void Attack (Gamepad gamepad)
+    {
+        bGL.canHit = isAttacking;
+        if (isAttacking)
+        {
+            float time = Time.time - punchStartTime;
+            if (time <= punchTime)
+            {
+                if (time <= punchTime * punchRatio)
+                {
+                    springTransform.localScale = new Vector3(1, 1, springCompressScale + swingLength * (time / (punchTime * punchRatio)));
+                }
+                else
+                {
+                    springTransform.localScale = new Vector3(1, 1, springCompressScale + swingLength * (1 - ((time - (punchTime * punchRatio)) / (punchTime * (1 - punchRatio)))));
+                }
+            }
+            else
+            {
+                springTransform.localScale = new Vector3(1, 1, springCompressScale);
+                isAttacking = false;
+                //Debug.Log("Ready to attack");
+            }
+            return;
+        }
+        if (Input.GetMouseButtonDown(0) || (gamepad != null && gamepad.rightTrigger.IsPressed()))
+        {
+                punchStartTime = Time.time;
+                //Debug.Log("Attacking");
+                isAttacking = true;
+                bGL.force = punchForce;
+        }
     }
 }
