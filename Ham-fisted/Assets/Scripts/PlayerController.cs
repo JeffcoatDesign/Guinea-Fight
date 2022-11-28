@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviourPun
     public Transform cameraTransform;
     public bool isLocalPlayer = false;
     public int id;
+    public Material mat;
+    public Material boxingGloveMat;
+    public MeshRenderer sphereBottom;
+    public MeshRenderer boxingGlove;
 
     [HideInInspector]
     public Player photonPlayer;
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviourPun
         photonPlayer = player;
         id = photonPlayer.ActorNumber;
         GameManager.instance.players[id - 1] = this;
+        SetColor(id - 1);
 
         if (!photonView.IsMine)
         {
@@ -41,6 +46,7 @@ public class PlayerController : MonoBehaviourPun
         }
         else
         {
+            GameUI.instance.photonView.RPC("SpawnPlayerIcon", RpcTarget.AllBuffered, id);
             isLocalPlayer = true;
             CameraController.instance.SetRigParent(gameObject);
         }
@@ -110,5 +116,18 @@ public class PlayerController : MonoBehaviourPun
 
         if (GameManager.instance.alivePlayers > 0)
             CameraController.instance.SetRigParent(GameManager.instance.players.First(x => !x.dead).gameObject);
+    }
+
+    void SetColor (int index)
+    {
+        Color color = GameManager.instance.colors[index];
+        mat = Instantiate(mat);
+        boxingGloveMat = Instantiate(boxingGloveMat);
+        boxingGloveMat.color = color;
+        boxingGlove.material = boxingGloveMat;
+
+        color.a = mat.color.a;
+        mat.color = color;
+        sphereBottom.material = mat;
     }
 }

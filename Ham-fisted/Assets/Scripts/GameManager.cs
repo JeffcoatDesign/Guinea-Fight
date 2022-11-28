@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviourPun
     public PlayerController[] players;
     public int alivePlayers;
     private int playersInGame;
+    public Color[] colors;
 
     public static GameManager instance;
 

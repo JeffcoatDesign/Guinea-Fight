@@ -817,6 +817,10 @@ MonoBehaviour:
   cameraTransform: {fileID: 0}
   isLocalPlayer: 1
   id: 0
+  mat: {fileID: 2100000, guid: 3048a752f2d749e44abb720dcf677fa8, type: 2}
+  boxingGloveMat: {fileID: 2100000, guid: d4d81fa5bb9fb2c499093919d5f0d03d, type: 2}
+  sphereBottom: {fileID: 4340614260741336350}
+  boxingGlove: {fileID: 4205954290442285189}
 --- !u!135 &9147769247874699252
 SphereCollider:
   m_ObjectHideFlags: 0
