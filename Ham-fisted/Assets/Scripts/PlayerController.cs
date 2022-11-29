@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviourPun
     void Respawn ()
     {
         livesLeft -= 1;
+        GameUI.instance.photonView.RPC("RemoveLife", RpcTarget.All, id);
         if (livesLeft <= 0)
             photonView.RPC("Die", RpcTarget.All);
         if (dead)

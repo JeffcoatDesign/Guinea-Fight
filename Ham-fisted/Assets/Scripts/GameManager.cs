@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviourPun
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
         alivePlayers = players.Length;
 
@@ -63,7 +64,10 @@ public class GameManager : MonoBehaviourPun
         if (alivePlayers == 1)
             photonView.RPC("WinGame", RpcTarget.All, players.First(x => !x.dead).id);
         else if (alivePlayers < 1)
+        { 
             Invoke("GoBackToMenu", postGameTime);
+            GameUI.instance.SetWinText("No one");
+        }
     }
 
     [PunRPC]
@@ -87,7 +91,7 @@ public class GameManager : MonoBehaviourPun
     void WinGame(int winningPlayer)
     {
         // set the UI Win Text
-        //GameUI.instance.SetWinText(GetPlayer(winningPlayer).photonPlayer.NickName);
+        GameUI.instance.SetWinText(GetPlayer(winningPlayer).photonPlayer.NickName);
 
         Invoke("GoBackToMenu", postGameTime);
     }

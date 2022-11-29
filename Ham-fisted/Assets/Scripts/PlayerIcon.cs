@@ -9,6 +9,9 @@ public class PlayerIcon : MonoBehaviour
     public float slideSpeed = 0.5f;
     public float slideTime = 2.0f;
     public TextMeshProUGUI numberText;
+    public Transform livesContainer;
+    public GameObject lifeIcon;
+    private GameObject[] lifeIcons;
     private bool sliding = false;
 
     private void FixedUpdate()
@@ -25,6 +28,27 @@ public class PlayerIcon : MonoBehaviour
     public void SetNumber(int num)
     {
         numberText.text = num.ToString();
+    }
+
+    public void SpawnLives (int amount)
+    {
+        lifeIcons = new GameObject[amount];
+        for (int x = 0; x < lifeIcons.Length; x++)
+        {
+            GameObject newIcon = Instantiate(lifeIcon, livesContainer);
+            lifeIcons[x] = newIcon;
+        }
+    }
+
+    public void RemoveLife ()
+    {
+        if (lifeIcons.Length > 0)
+        {
+            List<GameObject> tempList = new List<GameObject>(lifeIcons);
+            Destroy(lifeIcons[lifeIcons.Length - 1]);
+            tempList.Remove(lifeIcons[lifeIcons.Length - 1]);
+            lifeIcons = tempList.ToArray();
+        }
     }
 
     public void Remove ()
