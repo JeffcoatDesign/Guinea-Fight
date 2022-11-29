@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    public int maxPlayers = 10;
+    public int maxPlayers = 12;
     public float volume = 0.5f;
 
     // instance
@@ -14,8 +14,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        if (instance != null && instance != this)
+            gameObject.SetActive(false);
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     void Start()
@@ -54,12 +59,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        //GameManager.instance.alivePlayers--;
+        GameManager.instance.alivePlayers--;
         //GameUI.instance.UpdatePlayerInfoText();
 
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-            //GameManager.instance.CheckWinCondition();
-        //}
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameManager.instance.CheckWinCondition();
+        }
     }
 }

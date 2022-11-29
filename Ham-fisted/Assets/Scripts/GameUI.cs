@@ -10,7 +10,7 @@ public class GameUI : MonoBehaviourPun
 
     public static GameUI instance;
 
-    private GameObject[] icons = new GameObject[12];
+    private PlayerIcon[] icons = new PlayerIcon[12];
 
     private void Awake()
     {
@@ -20,8 +20,15 @@ public class GameUI : MonoBehaviourPun
     [PunRPC]
     public void SpawnPlayerIcon (int id)
     {
-        GameObject icon = Instantiate(playerIconPrefab, row);
-        icon.GetComponentInChildren<PlayerIcon>().SetColor(id - 1);
+        PlayerIcon icon = Instantiate(playerIconPrefab, row).GetComponentInChildren<PlayerIcon>();
+        icon.SetNumber(id);
+        icon.SetColor(id - 1);
         icons[id - 1] = icon;
+    }
+
+    [PunRPC]
+    public void RemoveIcon (int id)
+    {
+        icons[id - 1].Remove();
     }
 }

@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviourPun
     {
         livesLeft -= 1;
         if (livesLeft <= 0)
-            Die();
+            photonView.RPC("Die", RpcTarget.All);
         if (dead)
             return;
         rig.velocity = Vector3.zero;
@@ -113,9 +113,11 @@ public class PlayerController : MonoBehaviourPun
     {
         dead = true;
         GameManager.instance.alivePlayers -= 1;
+        GameUI.instance.RemoveIcon(id);
+        ChangeFocusedPlayer();
 
-        if (GameManager.instance.alivePlayers > 0)
-            CameraController.instance.SetRigParent(GameManager.instance.players.First(x => !x.dead).gameObject);
+        if (PhotonNetwork.IsMasterClient)
+            GameManager.instance.CheckWinCondition();
     }
 
     void SetColor (int index)
@@ -129,5 +131,11 @@ public class PlayerController : MonoBehaviourPun
         color.a = mat.color.a;
         mat.color = color;
         sphereBottom.material = mat;
+    }
+
+    void ChangeFocusedPlayer()
+    {
+        if (GameManager.instance.alivePlayers > 0)
+            CameraController.instance.SetRigParent(GameManager.instance.players.First(x => !x.dead).gameObject);
     }
 }

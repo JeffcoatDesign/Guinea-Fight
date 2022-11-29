@@ -62,6 +62,8 @@ public class GameManager : MonoBehaviourPun
     {
         if (alivePlayers == 1)
             photonView.RPC("WinGame", RpcTarget.All, players.First(x => !x.dead).id);
+        else if (alivePlayers < 1)
+            Invoke("GoBackToMenu", postGameTime);
     }
 
     [PunRPC]
