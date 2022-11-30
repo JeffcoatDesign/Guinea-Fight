@@ -35,8 +35,9 @@ public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
     void Start ()
     {
         //disable the menu buttons at the start
-        createRoomButton.interactable = false;
-        findRoomButton.interactable = false;
+        //createRoomButton.interactable = false;
+        //findRoomButton.interactable = false;
+        // ^^ irrelevent due to start screen
 
         //enable the cursor
         Cursor.lockState = CursorLockMode.None;

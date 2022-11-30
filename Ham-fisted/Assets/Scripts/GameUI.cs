@@ -9,6 +9,7 @@ public class GameUI : MonoBehaviourPun
     public Transform row;
     public GameObject playerIconPrefab;
     public TextMeshProUGUI winText;
+    public TextMeshProUGUI timerText;
 
     public static GameUI instance;
 
@@ -44,5 +45,10 @@ public class GameUI : MonoBehaviourPun
     {
         winText.gameObject.SetActive(true);
         winText.text = text + " is the Champion";
+    }
+
+    public void SetTimerText (float time)
+    {
+        timerText.text = time.ToString("F0");
     }
 }

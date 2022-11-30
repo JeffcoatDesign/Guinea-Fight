@@ -6,12 +6,14 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Linq;
 
-public class GameManager : MonoBehaviourPun
+public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public float gameTime;
     public float postGameTime;
     public bool playersRespawn;
     public int playerLives;
     public float fallY;
+    public bool gameRunning = false;
 
     public Transform[] spawnPoints;
 
@@ -19,6 +21,8 @@ public class GameManager : MonoBehaviourPun
     public PlayerController[] players;
     public int alivePlayers;
     private int playersInGame;
+    private float startTime;
+    private float currentTime;
     public Color[] colors;
 
     public static GameManager instance;
@@ -35,6 +39,17 @@ public class GameManager : MonoBehaviourPun
         alivePlayers = players.Length;
 
         photonView.RPC("ImInGame", RpcTarget.AllBuffered);
+    }
+
+    private void FixedUpdate ()
+    {
+        if(PhotonNetwork.IsMasterClient && gameRunning)
+        {
+            currentTime = Time.time - startTime;
+            if (gameTime - currentTime <= 0)
+                photonView.RPC("TimerOver", RpcTarget.All);
+        }
+        GameUI.instance.SetTimerText(gameTime - currentTime);
     }
 
     public PlayerController GetPlayer(int playerId)
@@ -76,15 +91,38 @@ public class GameManager : MonoBehaviourPun
         playersInGame++;
 
         if (PhotonNetwork.IsMasterClient && playersInGame == PhotonNetwork.PlayerList.Length)
+        {
             photonView.RPC("SpawnPlayer", RpcTarget.All);
+            photonView.RPC("StartGame", RpcTarget.All);
+        }
     }
 
     [PunRPC]
     void SpawnPlayer()
     {
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLoc, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, Quaternion.identity);
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLoc, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].rotation);
 
         playerObj.GetComponentInChildren<PlayerController>().photonView.RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
+    }
+
+    [PunRPC]
+    public void StartGame ()
+    {
+        startTime = Time.time;
+        gameRunning = true;
+    }
+
+    [PunRPC]
+    void TimerOver ()
+    {
+        gameRunning = false;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //find heighest elims
+
+
+            photonView.RPC("WinGame", RpcTarget.All, players.First(x => !x.dead).id);
+        }
     }
 
     [PunRPC]
@@ -99,5 +137,19 @@ public class GameManager : MonoBehaviourPun
     void GoBackToMenu()
     {
         NetworkManager.instance.ChangeScene("Menu");
+    }
+
+    public void OnPhotonSerializeView (PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (!gameRunning)
+            return;
+        if (stream.IsWriting)
+        {
+            stream.SendNext(currentTime);
+        }
+        else if (stream.IsReading && !PhotonNetwork.IsMasterClient)
+        {
+            currentTime = (float)stream.ReceiveNext();
+        }
     }
 }
