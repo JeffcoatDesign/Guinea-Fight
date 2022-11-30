@@ -269,7 +269,7 @@ MonoBehaviour:
   springEnd: {fileID: 2681180789383991338}
   bGL: {fileID: 8979431068839846312}
   punchForce: 2
-  speed: 1000
+  speed: 10
   punchTime: 0.2
   punchRatio: 0.6
   swingLength: 2

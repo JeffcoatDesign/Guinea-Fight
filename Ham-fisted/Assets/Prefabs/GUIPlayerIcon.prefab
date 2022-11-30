@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1831831007913295837}
   - component: {fileID: 1831831007913295836}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -305,9 +305,9 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 2
-  m_ChildForceExpandWidth: 1
+  m_ChildAlignment: 0
+  m_Spacing: 2.5
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 3541711775873260060}
   - component: {fileID: 6787094790088842677}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: ballTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

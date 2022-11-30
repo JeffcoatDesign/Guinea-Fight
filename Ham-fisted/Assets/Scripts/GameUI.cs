@@ -49,6 +49,13 @@ public class GameUI : MonoBehaviourPun
 
     public void SetTimerText (float time)
     {
-        timerText.text = time.ToString("F0");
+        float minutes = Mathf.Floor(time / 60);
+        float seconds = Mathf.RoundToInt(time % 60);
+        if (seconds == 60)
+        {
+            seconds = 0;
+            minutes++;
+        }
+        timerText.text = minutes.ToString("F0") + ":" + seconds.ToString("00");
     }
 }

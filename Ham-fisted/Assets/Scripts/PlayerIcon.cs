@@ -45,7 +45,7 @@ public class PlayerIcon : MonoBehaviour
         if (lifeIcons.Length > 0)
         {
             List<GameObject> tempList = new List<GameObject>(lifeIcons);
-            Destroy(lifeIcons[lifeIcons.Length - 1]);
+            lifeIcons[lifeIcons.Length - 1].SetActive(false);
             tempList.Remove(lifeIcons[lifeIcons.Length - 1]);
             lifeIcons = tempList.ToArray();
         }
