@@ -9,6 +9,7 @@ using Photon.Realtime;
 public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
     [Header("Screens")]
+    public GameObject loginScreen;
     public GameObject mainScreen;
     public GameObject createRoomScreen;
     public GameObject lobbyScreen;
@@ -58,6 +59,7 @@ public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
     void SetScreen (GameObject screen)
     {
         //disable all other screens
+        loginScreen.SetActive(false);
         mainScreen.SetActive(false);
         lobbyScreen.SetActive(false);
         createRoomScreen.SetActive(false);
@@ -76,13 +78,13 @@ public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         SetScreen(mainScreen);
     }
+    // LOGIN SCREEN
+    public void OnLogin()
+    {
+        SetScreen(mainScreen);
+    }
 
         // MAIN SCREEN
-
-    public void OnPlayerNameValueChanged (TMP_InputField playerNameInput)
-    {
-        PhotonNetwork.NickName = playerNameInput.text;
-    }
 
     public override void OnConnectedToMaster()
     {
@@ -121,6 +123,7 @@ public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public override void OnJoinedRoom()
     {
+        PhotonNetwork.NickName = PlayerInfo.instance.profile.DisplayName;
         SetScreen(lobbyScreen);
         photonView.RPC("UpdateLobbyUI", RpcTarget.All);
     }
