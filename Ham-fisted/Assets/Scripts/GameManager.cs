@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     public float fallY;
     public bool gameRunning = false;
 
-    public Transform[] spawnPoints;
+    public SpawnPoint[] spawnPoints;
 
     public string playerPrefabLoc;
     public PlayerController[] players;
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void SpawnPlayer()
     {
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLoc, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].position, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].rotation);
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabLoc, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.position, spawnPoints[PhotonNetwork.LocalPlayer.ActorNumber - 1].transform.rotation);
 
         playerObj.GetComponentInChildren<PlayerController>().photonView.RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
     }
@@ -163,6 +163,17 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         else if (stream.IsReading && !PhotonNetwork.IsMasterClient)
         {
             currentTime = (float)stream.ReceiveNext();
+        }
+    }
+
+    public void ShuffleSpawnPoints()
+    {
+        for (int i = 0; i < spawnPoints.Length; i++)
+        {
+            int randomIndex = Random.Range(0, spawnPoints.Length);
+            SpawnPoint tempSP = spawnPoints[randomIndex];
+            spawnPoints[randomIndex] = spawnPoints[i];
+            spawnPoints[i] = tempSP;
         }
     }
 }

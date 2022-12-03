@@ -38,5 +38,6 @@ public class CameraController : MonoBehaviour
     public void SetRigParent (GameObject tr)
     {
         targetPlayer = tr.GetComponent<PlayerController>();
+        transform.rotation = Quaternion.Euler(0, targetPlayer.transform.eulerAngles.y, 0);
     }
 }

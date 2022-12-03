@@ -21,24 +21,24 @@ public class GameUI : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void SpawnPlayerIcon (int id)
+    public void SpawnPlayerIcon (int index)
     {
         PlayerIcon icon = Instantiate(playerIconPrefab, row).GetComponentInChildren<PlayerIcon>();
-        icon.SetNumber(id);
-        icon.SetColor(id - 1);
+        icon.SetNumber(index);
+        icon.SetColor(index);
         icon.SpawnLives(GameManager.instance.playerLives);
-        icons[id - 1] = icon;
+        icons[index] = icon;
     }
 
     [PunRPC]
-    public void RemoveLife(int id)
+    public void RemoveLife(int index)
     {
-        icons[id - 1].RemoveLife();
+        icons[index].RemoveLife();
     }
 
-    public void RemoveIcon (int id)
+    public void RemoveIcon (int index)
     {
-        icons[id - 1].Remove();
+        icons[index].Remove();
     }
 
     public void SetWinText (string text)

@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using PlayFab;
 using PlayFab.ClientModels;
+using Photon.Pun;
 
-public class StatsScreen : MonoBehaviour
+public class StatsScreen : MonoBehaviourPun
 {
     [Header("Local Stats")]
     public TextMeshProUGUI timeText;
@@ -24,11 +25,15 @@ public class StatsScreen : MonoBehaviour
     public GameObject statsIcon;
     public Color[] colors;
 
+    [Header("Buttons")]
+    public Button backButton;
+
     private StatTracker statTracker;
     private string leaderboardName;
 
     void Start()
     {
+        backButton.interactable = PhotonNetwork.IsMasterClient;
         Cursor.lockState = CursorLockMode.None;
         statTracker = StatTracker.instance;
         leaderboardName = GetLeaderBoardName(statTracker.gamemode, statTracker.stage);
@@ -65,7 +70,7 @@ public class StatsScreen : MonoBehaviour
         foreach (int ko in statTracker.killedPlayers)
         {
             StatsIcon icon = Instantiate(statsIcon, kosContainer).GetComponent<StatsIcon>();
-            icon.SetColor(colors[ko - 1]);
+            icon.SetColor(colors[ko]);
         }
     }
 
@@ -74,7 +79,7 @@ public class StatsScreen : MonoBehaviour
         foreach (int fallout in statTracker.killedMe)
         {
             StatsIcon icon = Instantiate(statsIcon, deathsContainer).GetComponent<StatsIcon>();
-            icon.SetColor(colors[fallout - 1]);
+            icon.SetColor(colors[fallout]);
         }
     }
 
@@ -126,6 +131,13 @@ public class StatsScreen : MonoBehaviour
         Destroy(statTracker.gameObject);
     }
 
+    public void OnBackButton()
+    {
+        PhotonNetwork.OpRemoveCompleteCache();
+        photonView.RPC("GoBackToMenu", RpcTarget.All);
+    }
+
+    [PunRPC]
     public void GoBackToMenu ()
     {
         NetworkManager.instance.ChangeScene("Menu");

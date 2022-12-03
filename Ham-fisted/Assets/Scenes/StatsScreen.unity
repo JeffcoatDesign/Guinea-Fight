@@ -1022,7 +1022,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5375829332169036544}
         m_TargetAssemblyTypeName: StatsScreen, Assembly-CSharp
-        m_MethodName: GoBackToMenu
+        m_MethodName: OnBackButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1497,7 +1497,7 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 3
   m_Spacing: 5
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
@@ -2105,6 +2105,7 @@ GameObject:
   - component: {fileID: 5375829332169036543}
   - component: {fileID: 5375829332169036536}
   - component: {fileID: 5375829332169036537}
+  - component: {fileID: 5375829332169036545}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2189,3 +2190,26 @@ MonoBehaviour:
   - {r: 0.2551749, g: 0.13266875, b: 0.49056602, a: 1}
   - {r: 0.41509432, g: 0.20113665, b: 0, a: 1}
   - {r: 0.5549201, g: 1, b: 0, a: 1}
+  backButton: {fileID: 986346241}
+--- !u!114 &5375829332169036545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5375829332169036538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

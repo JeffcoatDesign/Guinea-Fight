@@ -30,17 +30,17 @@ public class StatTracker : MonoBehaviour
         isTimeBased = GameManager.instance.isTimeBased;
     }
 
-    public void AddKill (int id)
+    public void AddKill (int index)
     {
         List<int> tempList = new List<int>(killedPlayers);
-        tempList.Add(id);
+        tempList.Add(index);
         killedPlayers = tempList.ToArray();
     }
 
-    public void AddDeath (int id)
+    public void AddDeath (int index)
     {
         List<int> tempList = new List<int>(killedMe);
-        tempList.Add(id);
+        tempList.Add(index);
         killedMe = tempList.ToArray();
     }
 }

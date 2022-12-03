@@ -59,6 +59,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.OpRemoveCompleteCache();
+
+        if (GameManager.instance == null)
+            return;
+
         GameManager.instance.alivePlayers--;
         GameUI.instance.RemoveIcon(otherPlayer.ActorNumber);
 
