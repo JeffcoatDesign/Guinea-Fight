@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviourPun
 {
     public float speed;
     public float rotateSpeed;
+    public float hitCreditTime = 10.0f;
     public bool dead = false;
     public Rigidbody rig;
     public Transform cameraTransform;
@@ -19,6 +20,10 @@ public class PlayerController : MonoBehaviourPun
     public Material boxingGloveMat;
     public MeshRenderer sphereBottom;
     public MeshRenderer boxingGlove;
+    public BoxingGloveController boxingGloveController;
+
+    private float lastHitTime;
+    private int lastHitBy;
 
     [HideInInspector]
     public Player photonPlayer;
@@ -37,8 +42,10 @@ public class PlayerController : MonoBehaviourPun
     {
         photonPlayer = player;
         id = photonPlayer.ActorNumber;
+        boxingGloveController.bGL.id = id;
         GameManager.instance.players[id - 1] = this;
         SetColor(id - 1);
+        lastHitBy = id;
 
         if (!photonView.IsMine)
         {
@@ -57,7 +64,8 @@ public class PlayerController : MonoBehaviourPun
         if (!photonView.IsMine || dead)
             return;
         CheckGround();
-
+        if (Time.time - lastHitTime > hitCreditTime)
+            lastHitBy = id;
         //Vector3 camForward = cameraTransform.right;
         //Vector3 camHorizontal = cameraTransform.forward;
 
@@ -90,9 +98,11 @@ public class PlayerController : MonoBehaviourPun
     }
 
     [PunRPC]
-    public void GetHit(Vector3 attackerPos, float force)
+    public void GetHit(Vector3 attackerPos, float force, int attackerID)
     {
-        Debug.Log("Getting Hit");
+        lastHitTime = Time.time;
+        lastHitBy = attackerID;
+        Debug.Log("Getting Hit by: " + attackerID);
         Vector3 launchDir = transform.position - attackerPos;
         rig.AddForce(launchDir * force, ForceMode.Impulse);
     }
@@ -100,6 +110,14 @@ public class PlayerController : MonoBehaviourPun
     void Respawn ()
     {
         livesLeft -= 1;
+        //Debug.Log("Killed by: " + lastHitBy);
+        if (lastHitBy > 0 && StatTracker.instance != null)
+        {
+            StatTracker.instance.AddDeath(lastHitBy);
+            if (lastHitBy != id)
+                photonView.RPC("AddKill", GameManager.instance.GetPlayer(id).photonPlayer, lastHitBy);
+            lastHitBy = id;
+        }
         GameUI.instance.photonView.RPC("RemoveLife", RpcTarget.All, id);
         if (livesLeft <= 0)
             photonView.RPC("Die", RpcTarget.All);
@@ -107,6 +125,12 @@ public class PlayerController : MonoBehaviourPun
             return;
         rig.velocity = Vector3.zero;
         transform.position = transform.parent.position;
+    }
+
+    [PunRPC]
+    public void AddKill (int id)
+    {
+        StatTracker.instance.AddKill(id);
     }
 
     [PunRPC]

@@ -592,6 +592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb8091db3331f34d90f13f73892af62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   canHit: 0
   force: 0
 --- !u!1 &6753354402403694270
@@ -812,6 +813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   rotateSpeed: 0
+  hitCreditTime: 5
   dead: 0
   rig: {fileID: 9147769247874699253}
   cameraTransform: {fileID: 0}
@@ -821,6 +823,7 @@ MonoBehaviour:
   boxingGloveMat: {fileID: 2100000, guid: d4d81fa5bb9fb2c499093919d5f0d03d, type: 2}
   sphereBottom: {fileID: 4340614260741336350}
   boxingGlove: {fileID: 4205954290442285189}
+  boxingGloveController: {fileID: 2681180787783277986}
 --- !u!135 &9147769247874699252
 SphereCollider:
   m_ObjectHideFlags: 0

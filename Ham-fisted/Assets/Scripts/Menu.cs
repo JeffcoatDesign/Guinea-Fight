@@ -8,6 +8,17 @@ using Photon.Realtime;
 
 public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
+    #region instance
+    public static Menu instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+    #endregion
+
+    [Header("Game Selections")]
+    public string selectedStage;
+
     [Header("Screens")]
     public GameObject loginScreen;
     public GameObject mainScreen;
@@ -156,7 +167,7 @@ public class Menu : MonoBehaviourPunCallbacks, ILobbyCallbacks
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
         //tell everyone to load into game scene
-        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "TestStage");
+        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, selectedStage);
     }
 
     public void OnLeaveLobbyButton ()

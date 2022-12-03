@@ -15,7 +15,10 @@ public class PlayerInfo : MonoBehaviour
     void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
         else if (instance != null)
             Destroy(this);
     }

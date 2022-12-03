@@ -8,6 +8,8 @@ using System.Linq;
 
 public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public string gamemode;
+    public bool isTimeBased;
     public float gameTime;
     public float postGameTime;
     public bool playersRespawn;
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
+        StatTracker.instance.SetGamemode();
         Cursor.lockState = CursorLockMode.Locked;
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
         alivePlayers = players.Length;
@@ -41,9 +44,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         photonView.RPC("ImInGame", RpcTarget.AllBuffered);
     }
 
-    private void FixedUpdate ()
+    private void FixedUpdate()
     {
-        if(PhotonNetwork.IsMasterClient && gameRunning)
+        if (!gameRunning)
+            return;
+
+        if (PhotonNetwork.IsMasterClient)
         {
             currentTime = Time.time - startTime;
             if (gameTime - currentTime <= 0)
@@ -79,8 +85,9 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (alivePlayers == 1)
             photonView.RPC("WinGame", RpcTarget.All, players.First(x => !x.dead).id);
         else if (alivePlayers < 1)
-        { 
-            Invoke("GoBackToMenu", postGameTime);
+        {
+            Invoke("GoToStatsScreen", postGameTime);
+            //Invoke("GoBackToMenu", postGameTime);
             GameUI.instance.SetWinText("No one");
         }
     }
@@ -131,7 +138,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         // set the UI Win Text
         GameUI.instance.SetWinText(GetPlayer(winningPlayer).photonPlayer.NickName);
 
-        Invoke("GoBackToMenu", postGameTime);
+        Invoke("GoToStatsScreen", postGameTime);
+    }
+
+    void GoToStatsScreen()
+    {
+        StatTracker.instance.time = currentTime;
+        NetworkManager.instance.ChangeScene("StatsScreen");
     }
 
     void GoBackToMenu()
