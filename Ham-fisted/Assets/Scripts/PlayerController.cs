@@ -97,6 +97,12 @@ public class PlayerController : MonoBehaviourPun
         return i;
     }
 
+    int GetPlayerActorNum (int index)
+    {
+        int actorNum = PhotonNetwork.PlayerList[index].ActorNumber;
+        return actorNum;
+    }
+
     Vector3 FlattenCameraInput (Vector3 input)
     {
         Quaternion flatten = Quaternion.LookRotation(-Vector3.up, cameraTransform.forward) * Quaternion.Euler(-90f, 0, 0);
@@ -117,11 +123,11 @@ public class PlayerController : MonoBehaviourPun
     {
         livesLeft -= 1;
         //Debug.Log("Killed by: " + lastHitBy);
-        if (lastHitBy > 0 && StatTracker.instance != null)
+        if (lastHitBy > -1 && StatTracker.instance != null)
         {
             StatTracker.instance.AddDeath(lastHitBy);
             if (lastHitBy != GetPlayerIndex(id))
-                photonView.RPC("AddKill", GameManager.instance.GetPlayer(id).photonPlayer, lastHitBy);
+                photonView.RPC("AddKill", GameManager.instance.GetPlayer(GetPlayerActorNum(lastHitBy)).photonPlayer, GetPlayerIndex(id));
             lastHitBy = GetPlayerIndex(id);
         }
         GameUI.instance.photonView.RPC("RemoveLife", RpcTarget.All, GetPlayerIndex(id));
@@ -153,7 +159,9 @@ public class PlayerController : MonoBehaviourPun
         dead = true;
         GameManager.instance.alivePlayers -= 1;
         GameUI.instance.RemoveIcon(GetPlayerIndex(id));
-        ChangeFocusedPlayer();
+
+        if (photonView.IsMine)
+            ChangeFocusedPlayer();
 
         if (PhotonNetwork.IsMasterClient)
             GameManager.instance.CheckWinCondition();

@@ -32,6 +32,7 @@ public class StatTracker : MonoBehaviour
 
     public void AddKill (int index)
     {
+        //Debug.Log("Knocked Out: Player " + index);
         List<int> tempList = new List<int>(killedPlayers);
         tempList.Add(index);
         killedPlayers = tempList.ToArray();
@@ -39,6 +40,7 @@ public class StatTracker : MonoBehaviour
 
     public void AddDeath (int index)
     {
+        //Debug.Log("Knocked Down By: Player " + index);
         List<int> tempList = new List<int>(killedMe);
         tempList.Add(index);
         killedMe = tempList.ToArray();
