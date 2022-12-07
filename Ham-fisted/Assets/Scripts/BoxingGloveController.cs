@@ -82,16 +82,6 @@ public class BoxingGloveController : MonoBehaviourPun
         if (cr > tr || cr < tr)
         {
             total = Quaternion.Euler(0, Mathf.LerpAngle(cr, tr, Time.deltaTime * speed), 0);
-            //if (angleDifference > 180)
-            //{
-                //transform.Rotate(transform.eulerAngles.x, 360 - (speed * Time.deltaTime), transform.eulerAngles.z);
-                //total = Quaternion.Euler(0, Mathf.Clamp(transform.eulerAngles.y, tr, 360), 0);
-            //}
-            //else
-            //{
-                //transform.Rotate(transform.eulerAngles.x, 0 + (speed * Time.deltaTime), transform.eulerAngles.z);
-                //total = Quaternion.Euler(0, Mathf.Clamp(transform.eulerAngles.y, 0, tr), 0);
-            //}
             transform.rotation = total;
         }
     }

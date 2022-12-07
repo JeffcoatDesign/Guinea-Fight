@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 05148046acd6a03498b994ebc577cb21, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -10809,6 +10809,7 @@ MonoBehaviour:
   centerObj: {fileID: 2181313717454567703}
   spawnedObjectPrefab: {fileID: 30388237389642102, guid: 3168e9d1019a07941be13a759c00de0e, type: 3}
   options:
+  - {fileID: 11400000, guid: f784ec1a1f2a57c4f9c2af7ca83a6002, type: 2}
   - {fileID: 11400000, guid: 08a9b66b7577425448a28c470a9bdf71, type: 2}
   index: 0
   leftBtn: {fileID: 3728991210636767253}

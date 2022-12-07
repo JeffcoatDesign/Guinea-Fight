@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviourPun
     public MeshRenderer sphereBottom;
     public MeshRenderer boxingGlove;
     public BoxingGloveController boxingGloveController;
+    public FloatingNameTag nameTag;
 
     private float lastHitTime;
     private int lastHitBy;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviourPun
         boxingGloveController.bGL.id = id;
         GameManager.instance.players[GetPlayerIndex(id)] = this;
         SetColor(GetPlayerIndex(id));
+        nameTag.SetName(photonPlayer.NickName);
         lastHitBy = GetPlayerIndex(id);
 
         if (!photonView.IsMine)
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviourPun
         }
         else
         {
+            nameTag.Hide();
             GameUI.instance.photonView.RPC("SpawnPlayerIcon", RpcTarget.AllBuffered, GetPlayerIndex(id));
             isLocalPlayer = true;
             CameraController.instance.SetRigParent(gameObject);

@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Brawl Trio.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/Brawl Disc.unity
+    guid: e7d086ea55760144fa9293c45ba05856
+  - enabled: 1
     path: Assets/Scenes/StatsScreen.unity
     guid: a302c070f43deca45a4e2907c058b303
   m_configObjects:
