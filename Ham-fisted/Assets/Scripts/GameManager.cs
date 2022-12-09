@@ -86,8 +86,8 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             photonView.RPC("WinGame", RpcTarget.All, players.First(x => !x.dead).id);
         else if (alivePlayers < 1)
         {
-            Invoke("GoToStatsScreen", postGameTime);
-            //Invoke("GoBackToMenu", postGameTime);
+            // Debug for testing on singleplayer Invoke("GoToStatsScreen", postGameTime);
+            Invoke("GoBackToMenu", postGameTime);
             GameUI.instance.SetWinText("No one");
         }
     }
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             //find heighest elims
-
+            players = players.OrderBy(p => p.kills).ThenBy(p => p.kills).ToArray();
 
             photonView.RPC("WinGame", RpcTarget.All, players.First(x => !x.dead).id);
         }
@@ -144,11 +144,18 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     void GoToStatsScreen()
     {
         StatTracker.instance.time = currentTime;
+
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.RemoveBufferedRPCs();
+
         NetworkManager.instance.ChangeScene("StatsScreen");
     }
 
     void GoBackToMenu()
     {
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.RemoveBufferedRPCs();
+
         NetworkManager.instance.ChangeScene("Menu");
     }
 

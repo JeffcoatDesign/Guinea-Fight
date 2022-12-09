@@ -9,6 +9,8 @@ using Photon.Pun;
 
 public class StatsScreen : MonoBehaviourPun
 {
+    public float timeToRefreshStats;
+
     [Header("Local Stats")]
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI kosLabel;
@@ -37,7 +39,7 @@ public class StatsScreen : MonoBehaviourPun
         Cursor.lockState = CursorLockMode.None;
         statTracker = StatTracker.instance;
         leaderboardName = GetLeaderBoardName(statTracker.gamemode, statTracker.stage);
-        leaderboardTitle.text = statTracker.stage;
+        leaderboardTitle.text = statTracker.gamemode + " Most Kills";
         SetTimeText();
         SpawnDeaths();
         SpawnKOs();
@@ -50,7 +52,7 @@ public class StatsScreen : MonoBehaviourPun
 
         RetrieveStats();
 
-        Invoke("RetrieveStats", 0.5f);
+        Invoke("RetrieveStats", timeToRefreshStats);
     }
 
     void SetTimeText ()

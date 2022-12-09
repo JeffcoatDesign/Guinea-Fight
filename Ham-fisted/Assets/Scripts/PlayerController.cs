@@ -9,7 +9,6 @@ using System.Linq;
 public class PlayerController : MonoBehaviourPun
 {
     public float speed;
-    public float rotateSpeed;
     public float hitCreditTime = 10.0f;
     public bool dead = false;
     public Rigidbody rig;
@@ -20,14 +19,17 @@ public class PlayerController : MonoBehaviourPun
     public Material boxingGloveMat;
     public MeshRenderer sphereBottom;
     public MeshRenderer boxingGlove;
+    public MeshRenderer sphereMinimap;
     public BoxingGloveController boxingGloveController;
     public FloatingNameTag nameTag;
 
     private float lastHitTime;
     private int lastHitBy;
+    private List<PlayerController> spectators = new();
+    private PlayerController spectateTarget;
 
-    [HideInInspector]
-    public Player photonPlayer;
+    [HideInInspector] public Player photonPlayer;
+    [HideInInspector] public int kills = 0;
 
     private bool isGrounded;
     private int livesLeft;
@@ -153,6 +155,7 @@ public class PlayerController : MonoBehaviourPun
     [PunRPC]
     public void AddKill (int index)
     {
+        kills++;
         StatTracker.instance.AddKill(index);
     }
 
@@ -164,7 +167,11 @@ public class PlayerController : MonoBehaviourPun
         GameUI.instance.RemoveIcon(GetPlayerIndex(id));
 
         if (photonView.IsMine)
+        {
             ChangeFocusedPlayer();
+            if (spectators.Count != 0)
+                MoveSpectators();
+        }
 
         if (PhotonNetwork.IsMasterClient)
             GameManager.instance.CheckWinCondition();
@@ -181,11 +188,40 @@ public class PlayerController : MonoBehaviourPun
         color.a = mat.color.a;
         mat.color = color;
         sphereBottom.material = mat;
+        sphereMinimap.material = mat;
     }
 
-    void ChangeFocusedPlayer()
+    [PunRPC]
+    public void ChangeFocusedPlayer()
     {
-        if (GameManager.instance.alivePlayers > 0)
-            CameraController.instance.SetRigParent(GameManager.instance.players.First(x => !x.dead).gameObject);
+        if (GameManager.instance.alivePlayers <= 0)
+            return;
+        
+        if (spectateTarget != null)
+            spectateTarget.photonView.RPC("RemoveSpectator", spectateTarget.photonPlayer);
+
+        spectateTarget = GameManager.instance.players.First(x => !x.dead);
+        CameraController.instance.SetRigParent(spectateTarget.gameObject);
+        spectateTarget.photonView.RPC("AddSpectator", spectateTarget.photonPlayer, photonPlayer.ActorNumber);
+    }
+
+    [PunRPC]
+    public void AddSpectator(int actorNumber)
+    {
+        spectators.Add(GameManager.instance.players.First(p => p.photonPlayer.ActorNumber == actorNumber));
+    }
+
+    [PunRPC]
+    public void RemoveSpectator (int actorNumber)
+    {
+        spectators.Remove(spectators.First(p => p.photonPlayer.ActorNumber == actorNumber));
+    }
+
+    void MoveSpectators()
+    {
+        foreach (PlayerController spectator in spectators)
+        {
+            spectator.photonView.RPC("ChangeFocusedPlayer", spectator.photonPlayer);
+        }
     }
 }

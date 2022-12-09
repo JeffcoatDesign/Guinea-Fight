@@ -13,6 +13,7 @@ public class PlayerIcon : MonoBehaviour
     public GameObject lifeIcon;
     private GameObject[] lifeIcons;
     private bool sliding = false;
+    private Color color;
 
     private void FixedUpdate()
     {
@@ -22,7 +23,8 @@ public class PlayerIcon : MonoBehaviour
 
     public void SetColor (int index)
     {
-        GetComponent<Image>().color = GameManager.instance.colors[index];
+        color = GameManager.instance.colors[index];
+        GetComponent<Image>().color = color;
     }
 
     public void SetNumber(int num)
@@ -36,6 +38,7 @@ public class PlayerIcon : MonoBehaviour
         for (int x = 0; x < lifeIcons.Length; x++)
         {
             GameObject newIcon = Instantiate(lifeIcon, livesContainer);
+            newIcon.GetComponent<Image>().color = color;
             lifeIcons[x] = newIcon;
         }
     }

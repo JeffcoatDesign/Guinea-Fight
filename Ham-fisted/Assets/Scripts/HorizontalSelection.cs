@@ -26,12 +26,14 @@ public class HorizontalSelection : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        SetContent(0);
         if (!PhotonNetwork.IsMasterClient)
         {
+            photonView.RPC("GetIndexFromMaster", PhotonNetwork.MasterClient);
             leftBtn.interactable = false;
             rightBtn.interactable = false;
         }
+        else
+            SetContent(0);
     }
 
     public void LeftButton ()
@@ -82,6 +84,19 @@ public class HorizontalSelection : MonoBehaviourPunCallbacks
                 obj.GetComponent<TextMeshProUGUI>().text = index.ToString(); 
             }
         }
+    }
+
+    [PunRPC]
+    public void GetIndexFromMaster()
+    {
+        photonView.RPC("SetIndex", RpcTarget.Others, index);
+    }
+
+    [PunRPC]
+    public void SetIndex(int i)
+    {
+        index = i;
+        SetContent(index);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

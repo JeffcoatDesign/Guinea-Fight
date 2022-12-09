@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel : MonoBehaviourPun
 {
     public Transform playerBall;
     public Transform cameraRig;
@@ -17,6 +18,9 @@ public class PlayerModel : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine)
+            return;
+
         var gamepad = Gamepad.current;
 
         float x = Input.GetAxis("Horizontal");
