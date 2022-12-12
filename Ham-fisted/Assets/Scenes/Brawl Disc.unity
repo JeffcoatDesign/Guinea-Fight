@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.14611372, g: 0.6839913, b: 0.8039661, a: 1}
+  m_IndirectSpecularColor: {r: 0.19906268, g: 0.6923619, b: 0.8542613, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: b7c9838e868244f4390387d609aecf4e, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: e3eaaacce6f57d449abc40d226133c1b, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: ae2ec747e83df17408225cf7df3cea5d, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamemode: brawl
   isTimeBased: 0
-  gameTime: 120
+  gameTime: 180
   postGameTime: 5
   playersRespawn: 1
   playerLives: 4

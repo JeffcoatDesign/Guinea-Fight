@@ -456,7 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamemode: brawl
   isTimeBased: 0
-  gameTime: 120
+  gameTime: 180
   postGameTime: 5
   playersRespawn: 1
   playerLives: 4

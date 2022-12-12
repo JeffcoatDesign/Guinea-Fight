@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253445533760128603}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.146, y: 0.15, z: 0.748}
+  m_LocalPosition: {x: -0.179, y: 0.15, z: 0.748}
   m_LocalScale: {x: 0.1665181, y: -0.16651809, z: -0.16651809}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: fsadfsda
+  m_text: Username
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 471cf95fcac88a444bb973112177ae5b, type: 2}
   m_sharedMaterial: {fileID: 234606578579266761, guid: 471cf95fcac88a444bb973112177ae5b, type: 2}
@@ -715,8 +715,8 @@ MonoBehaviour:
   bGL: {fileID: 8979431068839846312}
   punchForce: 2
   speed: 10
-  punchTime: 0.2
-  punchRatio: 0.6
+  punchTime: 0.25
+  punchRatio: 0.35
   swingLength: 2
   springCompressScale: 0.5
 --- !u!114 &1993543860711391308
@@ -962,7 +962,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5387105093547657896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.146, y: 0.15, z: 0.748}
+  m_LocalPosition: {x: 0.179, y: 0.15, z: 0.748}
   m_LocalScale: {x: -0.16651809, y: -0.16651809, z: -0.16651809}
   m_ConstrainProportionsScale: 0
   m_Children: []
