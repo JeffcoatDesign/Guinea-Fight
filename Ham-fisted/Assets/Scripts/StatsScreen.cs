@@ -50,7 +50,7 @@ public class StatsScreen : MonoBehaviourPun
         else
             SendStat(statTracker.killedPlayers.Length);
 
-        RetrieveStats();
+        photonView.RPC("RetrieveStats", RpcTarget.AllBuffered);
 
         Invoke("RetrieveStats", timeToRefreshStats);
     }
@@ -99,12 +99,13 @@ public class StatsScreen : MonoBehaviourPun
                 new StatisticUpdate { StatisticName = leaderboardName, Value = statToSend }
             }
         },
-        result => { Debug.Log("Updated leaderboard"); },
+        result => { RetrieveStats(); },
         error => { Debug.Log(error.ErrorMessage); }
         );
     }
 
-    void RetrieveStats ()
+    [PunRPC]
+    public void RetrieveStats ()
     {
         GetLeaderboardRequest getLeaderboardRequest = new GetLeaderboardRequest
         {

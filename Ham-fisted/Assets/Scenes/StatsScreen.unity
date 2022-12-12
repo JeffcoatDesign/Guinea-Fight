@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f5673b2964dcca44b409016f4c846db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToRefreshStats: 2
+  timeToRefreshStats: 10
   timeText: {fileID: 2048228294}
   kosLabel: {fileID: 345073252}
   kosContainer: {fileID: 1290226850}
