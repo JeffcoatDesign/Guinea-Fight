@@ -21,7 +21,7 @@ public class BoxingGloveController : MonoBehaviourPun
     public float springCompressScale = 0.5f;
 
     private Transform cameraRig;
-    private bool isAttacking = false;
+    public bool isAttacking = false;
     private float punchStartTime;
 
     private void Awake()

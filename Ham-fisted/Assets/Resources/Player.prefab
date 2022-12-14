@@ -719,6 +719,7 @@ MonoBehaviour:
   punchRatio: 0.35
   swingLength: 2
   springCompressScale: 0.5
+  isAttacking: 0
 --- !u!114 &1993543860711391308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,6 +1113,7 @@ MonoBehaviour:
   id: 0
   canHit: 0
   force: 0
+  impactName: HitEffect
 --- !u!1 &6753354402403694270
 GameObject:
   m_ObjectHideFlags: 0

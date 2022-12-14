@@ -18,6 +18,11 @@ public class AudioManager : MonoBehaviour
         music.volume = volume;
     }
 
+    public void OnSliderValueChanged()
+    {
+        HandleSliderValueChanged(volumeSlider.value);
+    }
+
     public void HandleSliderValueChanged (float value)
     {
         volume = value;

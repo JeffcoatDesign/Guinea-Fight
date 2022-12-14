@@ -1916,8 +1916,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7585932975720695428}
+  - component: {fileID: 7585932975720695429}
   m_Layer: 0
-  m_Name: GuineaPigOffset
+  m_Name: HamsterOffset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3268,7 +3269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &5375829332142381598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4737,8 +4738,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 336.86594, y: -165.94266}
-  m_SizeDelta: {x: 663.7319, y: 137.6951}
+  m_AnchoredPosition: {x: 336.86594, y: -138.34267}
+  m_SizeDelta: {x: 663.7319, y: 192.89511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5375829332665729281
 GameObject:
@@ -4788,7 +4789,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Code: Jacob Jeffcoat
 
-    Modeling: Dylan Fallon'
+    Modeling: Dylan Fallon
+
+
+    Music
+
+    "The
+    Rave Party" by Snabisch
+
+    "Post Adventure Tea Party" by Zane Little Music'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 471cf95fcac88a444bb973112177ae5b, type: 2}
   m_sharedMaterial: {fileID: 234606578579266761, guid: 471cf95fcac88a444bb973112177ae5b, type: 2}
@@ -7999,10 +8008,10 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6295567500068576165}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: HandleSliderValueChanged
-        m_Mode: 0
+        m_MethodName: OnSliderValueChanged
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8864,8 +8873,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 336.86594, y: -50.047554}
-  m_SizeDelta: {x: 663.7319, y: 90.09511}
+  m_AnchoredPosition: {x: 336.86594, y: -22.447554}
+  m_SizeDelta: {x: 663.7319, y: 34.895107}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5375829333960109382
 GameObject:
@@ -10769,7 +10778,7 @@ GameObject:
   - component: {fileID: 8450043575678277726}
   - component: {fileID: 7818444654063246212}
   m_Layer: 0
-  m_Name: guineapig
+  m_Name: hamster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10823,7 +10832,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6295567500068576164}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b0e338037121284382b6bfdb344d3c2, type: 3}
   m_Name: 
@@ -10840,7 +10849,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9b5b8aeee45ffb34c81d4a44b15da66e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5e8d61696cf914c4691e4b4bbca4af09, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -11050,6 +11059,19 @@ Transform:
   m_Father: {fileID: 1569217968733250119}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 34.6, z: 0}
+--- !u!114 &7585932975720695429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562039529035793991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f447835cdd682048a6a8871569a6e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addSpeed: 0.00001
 --- !u!114 &7676567895672797378
 MonoBehaviour:
   m_ObjectHideFlags: 0
